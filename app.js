@@ -1,3 +1,5 @@
+//require our dotenv package and we configured it to be able to access our environmental variables
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -20,10 +22,9 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
-//define the secret
-const secret = "Thisisourlittlesecret";
 //use the secret for encrypt our database
-userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"]});
+//get the secret from .env file
+userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ["password"]});
 
 const User = new mongoose.model("User", userSchema);
 
